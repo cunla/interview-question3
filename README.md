@@ -1,14 +1,51 @@
-Interview question
+Demo Spring Boot REST Api application
 ==================
 
 
-This is a very basic spring-boot app. Run it (using `mvn spring-boot:run`) or your favorite IDE.
-Try the url `http://localhost:5000/greeting?name=David`, it should return the string: "Hello David".
+This is a basic spring-boot app to demonstrate exposing a set of REST endpoints to retreive and add messages and replies. That can be used as a template to develop a forum system.
 
-You should use this template to develop a forum system.
+## Getting Started
 
-# Requirements
-We want to develop 4 APIs:
+### Prerequisites
+* Git
+* JDK 8 or later
+* Maven 3.0 or later
+
+### Clone
+To get started you can simply clone this repository using git:
+```
+git clone https://github.com/dbaranau/interview-question3.git
+cd interview-question3
+```
+
+### Running the application locally
+
+There are several ways to run a Spring Boot application on your local machine. One way is to execute the `main` method in the `com.example.demo.DemoApplication` class from your IDE.
+
+Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html) like so:
+
+```shell
+mvn spring-boot:run
+```
+
+### Build an executable JAR
+You can run the application from the command line using:
+```
+mvn spring-boot:run
+```
+Or you can build a single executable JAR file that contains all the necessary dependencies, classes, and resources with:
+```
+mvn clean package
+```
+Then you can run the JAR file with:
+```
+java -jar target/*.jar
+```
+
+
+# Testing API endpoints locally
+ 
+Once the application is running, there are 4 API endpoints are available on port 5000:
 
 ### Post new question: `http://localhost:5000/questions`
 with body:
@@ -18,7 +55,7 @@ with body:
   "message": "Message text"
 }
 ```
-Response should be 201:
+The response is 201:
 ```json
 {
   "id": 1,
@@ -36,7 +73,7 @@ with body:
   "message": "Message reply text"
 }
 ```
-Response should be 201:
+The response is 201:
 ```json
 {
   "questionId": 1,
@@ -47,7 +84,7 @@ Response should be 201:
 ```
 
 ### Get a thread: `http://localhost:5000/questions/{questionId}`, 
-the response should look like:
+The response looks like:
 ```json
 {
   "id": 1,
@@ -65,7 +102,7 @@ the response should look like:
 ```
 
 ### Get a list of questions: `http://localhost:5000/questions`
-The response should look like:
+The response looks like:
 ```json
 [
     {
@@ -78,18 +115,7 @@ The response should look like:
 ]
 ```
 
-## Guidelines
-* Fork this repository and push your commits
-* Use the spring-boot template given
-* Write unit-tests, integration-tests 
-  * Write in javadocs what scenarios are in test
-  * Higher coverage is better
-* Write code documentation
-* All classes given are meant to used as reference - once they are not needed, they can be removed.
-* This project uses [lombok](https://projectlombok.org/) - use it when possible
-* Properly organize your project with `.gitignore` file, `readme` file explaining how to run the project, etc.
 
-## Deliverables
-* Send us a link to a repository fulfilling the requirements.
-* Your code will be tested using different tests.
-* Successful implementation will move to interview.
+## License
+This project is licensed under the terms of the [MIT license](LICENSE).
+

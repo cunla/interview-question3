@@ -79,28 +79,48 @@ public class ConversationServiceUnitTest {
 
         //verify expected exception
     }
-    //TODO: Something wrong starts here!!!
-//    @Test
-//    public void getOneQuestion_success() {
-//        //prepare
-//        val question = TestData.createTestQuestion();
-//        Optional<Question> optionalQuestion = new Optional<Question>(question);
-//
-//        //Mock respository output
-//        when(questionRepository.findById(anyLong())).thenReturn(question);
-//
-//        //execute & collect
-//        val result = conversationService.findQuestion(1);
-//
-//        //verify
-//        assertNotNull("Not Null Result", result);
-//    }
+
+
+    @Test
+    public void getOneQuestion_success() {
+        //prepare
+        val question = TestData.createTestQuestion();
+        val optionalQuestion = Optional.of(question);
+
+        //Mock respository output
+        when(questionRepository.findById(anyLong())).thenReturn(optionalQuestion);
+
+        //execute & collect
+        val result = conversationService.findQuestion(1);
+
+        //verify
+        assertNotNull("Not Null Result", result);
+        assertEquals("Author equals", question.getAuthor(), result.getAuthor());
+        assertEquals("Message equals", question.getMessage(), result.getMessage());
+    }
+
+
+
+
+    @Test(expected = RecordNotFoundException.class)
+    public void getOneQuestion_fails_when_no_record() {
+        //prepare
+        Optional<Question> optionalQuestion = Optional.empty();
+
+        //Mock respository output
+        when(questionRepository.findById(anyLong())).thenReturn(optionalQuestion);
+
+        //execute
+        conversationService.findQuestion(1);
+
+        //verify expected exception
+    }
 
     @Test(expected = DataAccessException.class)
     public void getOneQuestion_fails_when_repo_fails() {
         //prepare
-        val question = TestData.createTestQuestion();
-        //Mock conversationService listQuestions
+
+        //Mock conversationService findById
         when(questionRepository.findById(anyLong())).thenThrow(new DataRetrievalFailureException("generated"));
 
 
@@ -109,22 +129,6 @@ public class ConversationServiceUnitTest {
 
         //verify expected exception
     }
-
-    @Test(expected = RecordNotFoundException.class)
-    public void getOneQuestion_fails_when_no_record() {
-        //prepare
-        val question = TestData.createTestQuestion();
-        //Mock conversationService listQuestions
-        when(questionRepository.findById(anyLong())).thenThrow(new RecordNotFoundException("generated"));
-        when(questionRepository.findAll()).thenReturn(new ArrayList<Question>() {{add(question);}});
-
-
-        //execute
-        conversationService.findQuestion(1);
-
-        //verify expected exception
-    }
-
 
     @Test
     public void createQuestion_success() {

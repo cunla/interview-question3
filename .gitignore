@@ -6,6 +6,7 @@
 # Intellij
 .idea/
 *.iml
+!/demo.iml
 *.iws
 
 # Mac
@@ -15,3 +16,4 @@
 log/
 target/
 out/
+

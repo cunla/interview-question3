@@ -16,7 +16,6 @@ import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.test.web.servlet.result
 
 import java.util.ArrayList;
 
@@ -54,7 +53,6 @@ public class ConversationControllerUnitTest {
         //prepare
         val question = TestData.createTestQuestion();
         //Mock conversationService listQuestions
-        //given(conversationService.listQuestions()).willReturn(new ArrayList<Question>() {{add(question);}});
         when(conversationService.listQuestions()).thenReturn(new ArrayList<Question>() {{add(question);}});
 
 
@@ -73,7 +71,6 @@ public class ConversationControllerUnitTest {
         verify(conversationService, times(1)).listQuestions();
     }
 
-    //@Test(expected = DataRetrievalFailureException.class)
     @Test
     public void getAllQuestions_500_when_svc_fails() throws Exception {
         //prepare
@@ -266,8 +263,9 @@ public class ConversationControllerUnitTest {
         val question = TestData.createTestQuestion();
         final ObjectMapper mapper = new ObjectMapper();
         val message = new MessageDto(TestData.R_AUTHOR, TestData.R_MESSAGE);
-        //Mock conversationService createQuestion
+        //Mock conversationService call
         when(conversationService.findQuestion(anyLong())).thenThrow(new DataRetrievalFailureException("generated"));
+        when(conversationService.createReplyForQuestion(any(Question.class), any(MessageDto.class))).thenReturn(question.getReplies().iterator().next());
 
         //execute
         mockMvc.perform(post("/questions/1/reply/")
@@ -281,7 +279,7 @@ public class ConversationControllerUnitTest {
 
         //verify that Svc method called
         verify(conversationService, times(1)).findQuestion(1);
-        verify(conversationService, times(1)).createReplyForQuestion(question, message);
+        verify(conversationService, times(0)).createReplyForQuestion(question, message);
     }
 
 
@@ -291,7 +289,7 @@ public class ConversationControllerUnitTest {
         val question = TestData.createTestQuestion();
         final ObjectMapper mapper = new ObjectMapper();
         val message = new MessageDto(TestData.R_AUTHOR, TestData.R_MESSAGE);
-        //Mock conversationService createQuestion
+        //Mock conversationService call
         when(conversationService.findQuestion(anyLong())).thenReturn(question);
         when(conversationService.createReplyForQuestion(any(Question.class), any(MessageDto.class))).thenThrow(new DataRetrievalFailureException("generated"));
 
