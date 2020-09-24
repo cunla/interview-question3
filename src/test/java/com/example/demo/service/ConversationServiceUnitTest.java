@@ -29,27 +29,44 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-
+/**
+ * ConversationService unit tests
+ */
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class ConversationServiceUnitTest {
 
+    /**
+     * Conversation Service injected
+     */
     @Autowired
     ConversationService conversationService;
 
+    /**
+     * Question Repository mock
+     */
     @MockBean
     QuestionRepository questionRepository;
 
+    /**
+     * Reply Repository mock
+     */
     @MockBean
     ReplyRepository replyRepository;
 
 
+    /**
+     * Setup method to configure ConversationService before tests
+     */
     @Before
     public void Setup() {
         ((ConversationServiceImpl)this.conversationService).setQuestionRepository(questionRepository);
         ((ConversationServiceImpl)this.conversationService).setReplyRepository(replyRepository);
     }
 
+    /**
+     * Tests successful execution scenario of ConversationService.getAllQuestions() 
+     */
     @Test
     public void getAllQuestions_success() {
         //prepare
@@ -66,6 +83,9 @@ public class ConversationServiceUnitTest {
 
     }
 
+    /**
+     * Tests failure scenario when questionRepository throws DataAccessException during execution of ConversationService.getAllQuestions()
+     */
     @Test(expected = DataAccessException.class)
     public void getAllQuestions_fails_when_repo_fails() {
         //prepare
@@ -81,6 +101,9 @@ public class ConversationServiceUnitTest {
     }
 
 
+    /**
+     * Tests successful execution scenario of ConversationService.getOneQuestion() 
+     */
     @Test
     public void getOneQuestion_success() {
         //prepare
@@ -102,6 +125,9 @@ public class ConversationServiceUnitTest {
 
 
 
+    /**
+     * Tests failure scenario when questionRepository returns empty result during execution of ConversationService.getOneQuestion()
+     */
     @Test(expected = RecordNotFoundException.class)
     public void getOneQuestion_fails_when_no_record() {
         //prepare
@@ -116,6 +142,9 @@ public class ConversationServiceUnitTest {
         //verify expected exception
     }
 
+    /**
+     * Tests failure scenario when questionRepository throws DataAccessException during execution of ConversationService.getOneQuestion()
+     */
     @Test(expected = DataAccessException.class)
     public void getOneQuestion_fails_when_repo_fails() {
         //prepare
@@ -130,6 +159,9 @@ public class ConversationServiceUnitTest {
         //verify expected exception
     }
 
+    /**
+     * Tests successful execution scenario of ConversationService.createQuestion() 
+     */
     @Test
     public void createQuestion_success() {
         //prepare
@@ -148,6 +180,9 @@ public class ConversationServiceUnitTest {
         assertEquals("Message equals", question.getMessage(), result.getMessage());
     }
 
+    /**
+     * Tests failure scenario when questionRepository throws DataAccessException during execution of ConversationService.createQuestion()
+     */
     @Test(expected = DataAccessException.class)
     public void createQuestion_fails_when_repo_fails() {
         //prepare
@@ -164,6 +199,9 @@ public class ConversationServiceUnitTest {
     }
 
 
+    /**
+     * Tests successful execution scenario of ConversationService.createReplyForQuestion() 
+     */
     @Test
     public void createReplyForQuestion_success() {
         //prepare
@@ -182,6 +220,9 @@ public class ConversationServiceUnitTest {
         assertEquals("Message equals", message.getMessage(), result.getMessage());
     }
 
+    /**
+     * Tests failure scenario when questionRepository throws DataAccessException during execution of ConversationService.createReplyForQuestion()
+     */
     @Test(expected = DataAccessException.class)
     public void createReplyForQuestion_fails_when_repo_fails() {
         //prepare

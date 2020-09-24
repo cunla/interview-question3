@@ -1,6 +1,9 @@
 package com.example.demo.constants;
 
-public final class Constants {
+/**
+ * Segregates Internal Messages used by logger
+ */
+public final class InternalMessage {
 
     public static final String ERROR_MSG_TMPLT = "Method %s() - Exception Details: %s";
 
@@ -15,7 +18,7 @@ public final class Constants {
 
     public static final String INFO_MSG_FOUND_PARENT_RECORD = "Method %s() - found parent record for id  %s";
 
-    private Constants(){
+    private InternalMessage(){
         throw new AssertionError();
     }
 

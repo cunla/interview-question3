@@ -2,7 +2,7 @@ Demo Spring Boot REST Api application
 ==================
 
 
-This is a basic spring-boot app to demonstrate exposing a set of REST endpoints to retreive and add messages and replies. That can be used as a template to develop a forum system.
+This is a basic spring-boot app to demonstrate exposing a set of REST endpoints to retrieve and add messages and replies. That can be used as a template to develop a forum system.
 
 ## Getting Started
 
