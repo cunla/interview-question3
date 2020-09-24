@@ -22,18 +22,32 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * ConversationController integration tests
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public class ConversationControllerIntegrationTest {
+
+    /**
+     * Port used Http operations
+     */
     @LocalServerPort
     private int port;
 
+    /**
+     * Injected TestRestTemplate
+     */
     @Autowired
     private TestRestTemplate restTemplate;
 
+    /**
+     * Tests successful execution scenario for GET operation to get list questions at http://localhost:{PORT}/questions
+     * Expected response status is 200
+     */
     @Test
-    public void getAllQuestions() throws Exception {
+    public void getAllQuestions() {
         //prepare
         //no need to prepare data as data is created from data.sql
 
@@ -53,8 +67,12 @@ public class ConversationControllerIntegrationTest {
         assertTrue(list.size() > 0);
     }
 
+    /**
+     * Tests successful execution scenario for GET operation to get a question at http://localhost:{PORT}/questions/{questionId}
+     * Expected response status is 200
+     */
     @Test
-    public void getOneQuestion() throws Exception {
+    public void getOneQuestion() {
         //prepare
         //no need to prepare data as data is created from data.sql
 
@@ -74,8 +92,12 @@ public class ConversationControllerIntegrationTest {
         assertEquals("dima", instance.getAuthor() );
     }
 
+    /**
+     * Tests successful execution scenario for POST operation to create a question at http://localhost:{PORT}/questions
+     * Expected response status is 201
+     */
     @Test
-    public void createQuestion() throws Exception {
+    public void createQuestion() {
         //prepare
         val message = new MessageDto(TestData.Q_AUTHOR, TestData.Q_MESSAGE);
 
@@ -94,8 +116,12 @@ public class ConversationControllerIntegrationTest {
         assertEquals(instance.getAuthor(), message.getAuthor());
     }
 
+    /**
+     * Tests successful execution scenario for POST operation to create a reply for a question at http://localhost:{PORT}/questions/{questionId}/reply
+     * Expected response status is 201
+     */
     @Test
-    public void createReplyForQuestion() throws Exception {
+    public void createReplyForQuestion() {
         //prepare
         val message = new MessageDto(TestData.R_AUTHOR, TestData.R_MESSAGE);
 

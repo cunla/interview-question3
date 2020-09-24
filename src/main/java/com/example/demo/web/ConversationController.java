@@ -105,7 +105,7 @@ public class ConversationController {
     }
 
     /**
-     * POST operation to add a new Reply to a Question at  http://localhost:{PORT}/questions/{questionId}/reply
+     * POST operation to add a new Reply to a Question at http://localhost:{PORT}/questions/{questionId}/reply
      * {PORT} value is from application configuration server.port: XXXX
      * @param message Reply content
      * @param questionId Question the Reply is added to

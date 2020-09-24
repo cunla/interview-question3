@@ -18,10 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.BDDMockito.*;
@@ -35,19 +31,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * ConversationController unit tests
+ */
 @RunWith(SpringRunner.class)
 @WebMvcTest(ConversationController.class)
 public class ConversationControllerUnitTest {
 
+    /**
+     * MockMvc injected
+     */
     @Autowired
     private MockMvc mockMvc;
 
 
+    /**
+     * ConversationService mock
+     */
     @MockBean
     ConversationService conversationService;
 
 
-
+    /**
+     * Tests successful execution scenario for GET operation to get list questions at http://localhost:{PORT}/questions
+     * Expected response status is 200
+     * @throws Exception Possible exception of the test method
+     */
     @Test
     public void getAllQuestions_200_when_all_good() throws Exception {
         //prepare
@@ -71,6 +80,12 @@ public class ConversationControllerUnitTest {
         verify(conversationService, times(1)).listQuestions();
     }
 
+    /**
+     * Tests failure scenario for GET operation to get list questions at http://localhost:{PORT}/questions
+     * The scenario is when conversationService throws DataAccessException originated in underlying repository
+     * Expected response status is 500
+     * @throws Exception Possible exception of the test method
+     */
     @Test
     public void getAllQuestions_500_when_svc_fails() throws Exception {
         //prepare
@@ -90,6 +105,11 @@ public class ConversationControllerUnitTest {
 
 
 
+    /**
+     * Tests successful execution scenario for GET operation to get a question at http://localhost:{PORT}/questions/{questionId}
+     * Expected response status is 200
+     * @throws Exception Possible exception of the test method
+     */
     @Test
     public void getOneQuestion_200_when_all_good() throws Exception {
         //prepare
@@ -115,6 +135,12 @@ public class ConversationControllerUnitTest {
         verify(conversationService, times(1)).findQuestion(1);
     }
 
+    /**
+     * Tests failure scenario for GET operation to get a question at http://localhost:{PORT}/questions/{questionId}
+     * The scenario is when conversationService throws DataAccessException originated in underlying repository
+     * Expected response status is 500
+     * @throws Exception Possible exception of the test method
+     */
     @Test
     public void getOneQuestion_500_when_svc_fails() throws Exception {
         //prepare
@@ -132,6 +158,12 @@ public class ConversationControllerUnitTest {
         verify(conversationService, times(1)).findQuestion(1);
     }
 
+    /**
+     * Tests failure scenario for GET operation to get a question at http://localhost:{PORT}/questions/{questionId}
+     * The scenario is when conversationService throws RecordNotFoundException for questionId
+     * Expected response status is 400
+     * @throws Exception Possible exception of the test method
+     */
     @Test
     public void getOneQuestion_400_when_no_record() throws Exception {
         //prepare
@@ -149,6 +181,11 @@ public class ConversationControllerUnitTest {
         verify(conversationService, times(1)).findQuestion(1);
     }
 
+    /**
+     * Tests successful execution scenario for POST operation to create a question at http://localhost:{PORT}/questions
+     * Expected response status is 201
+     * @throws Exception Possible exception of the test method
+     */
     @Test
     public void createQuestion_201_when_all_good() throws Exception {
         //prepare
@@ -179,6 +216,12 @@ public class ConversationControllerUnitTest {
         verify(conversationService, times(1)).createQuestion(message);
     }
 
+    /**
+     * Tests successful execution scenario for POST operation to create a question at http://localhost:{PORT}/questions
+     * The scenario is when conversationService throws DataAccessException originated in underlying repository
+     * Expected response status is 500
+     * @throws Exception Possible exception of the test method
+     */
     @Test
     public void createQuestion_500_when_svc_fails() throws Exception {
         //prepare
@@ -203,6 +246,11 @@ public class ConversationControllerUnitTest {
         verify(conversationService, times(1)).createQuestion(message);
     }
 
+    /**
+     * Tests successful execution scenario for POST operation to create a reply for a question at http://localhost:{PORT}/questions/{questionId}/reply
+     * Expected response status is 201
+     * @throws Exception Possible exception of the test method
+     */
     @Test
     public void createReplyForQuestion_201_when_all_good() throws Exception {
         //prepare
@@ -232,6 +280,11 @@ public class ConversationControllerUnitTest {
         verify(conversationService, times(1)).createReplyForQuestion(question, message);
     }
 
+    /**
+     * Tests failure scenario of Question is not found for POST operation to create a reply for a question at http://localhost:{PORT}/questions/{questionId}/reply
+     * Expected response status is 400
+     * @throws Exception Possible exception of the test method
+     */
     @Test
     public void createReplyForQuestion_400_when_no_record() throws Exception {
         //prepare
@@ -257,6 +310,12 @@ public class ConversationControllerUnitTest {
         verify(conversationService, times(0)).createReplyForQuestion(question, message);
     }
 
+    /**
+     * Tests successful execution scenario for POST operation to create a reply for a question at http://localhost:{PORT}/questions/{questionId}/reply
+     * The scenario is when the first call to conversationService.findQuestion() throws DataAccessException originated in underlying repository
+     * Expected response status is 500
+     * @throws Exception Possible exception of the test method
+     */
     @Test
     public void createReplyForQuestion_500_when_svc_fails_on_first_call() throws Exception {
         //prepare
@@ -283,6 +342,12 @@ public class ConversationControllerUnitTest {
     }
 
 
+    /**
+     * Tests successful execution scenario for POST operation to create a reply for a question at http://localhost:{PORT}/questions/{questionId}/reply
+     * The scenario is when the second call to conversationService.createReplyForQuestion() throws DataAccessException originated in underlying repository
+     * Expected response status is 500
+     * @throws Exception Possible exception of the test method
+     */
     @Test
     public void createReplyForQuestion_500_when_svc_fails_on_second_call() throws Exception {
         //prepare
